@@ -27,6 +27,28 @@ class TaskService {
       }
    }
 
+   async getAllLists() {
+      try {
+         //Запрос значений по листу задач из БД
+         const taskLists = await Task.findAll({
+            attributes: ['taskList'],
+            group: ['taskList']
+         })
+         if (!taskLists) {
+            return { message: 'Создайте список задач'}
+         }
+         const uniqueTaskLists = taskLists.map(task => task.taskList);
+         return uniqueTaskLists
+      } catch (error) {
+         throw error;
+      }
+   }
+
+   async getAllTasks() {
+      const tasks = await Task.findAll();
+      return tasks;
+   }
+
    async deleteTask (unicId) {
       try {
          //Поиск задачи

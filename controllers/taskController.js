@@ -21,6 +21,24 @@ class TaskController {
       }
    }
 
+   async getAllLists (req, res, next) {
+      try {
+         const taskData = await taskService.getAllLists()
+         return res.json(taskData)
+      } catch(e) {
+         next(e)
+      }
+   }
+
+   async getAllTasks(req, res, next) {
+      try {
+         const taskData = await taskService.getAllTasks()
+         return res.json(taskData)
+      } catch(e) {
+         next(e)
+      }
+   }
+
    async delete (req, res, next) {
       try {
          const {unicId} = req.body

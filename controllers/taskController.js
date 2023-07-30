@@ -30,6 +30,16 @@ class TaskController {
       }
    }
 
+   async getTasksByList (req, res, next) {
+      try {
+         const { taskList } = req.body
+         const taskData = await taskService.getTasksByList(taskList)
+         return res.json(taskData)
+      } catch(e) {
+         next(e)
+      }
+   }
+
    async getAllTasks(req, res, next) {
       try {
          const taskData = await taskService.getAllTasks()

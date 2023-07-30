@@ -44,6 +44,18 @@ class TaskService {
       }
    }
 
+   async getTasksByList(taskList) {
+      try {
+         const tasks = await Task.findAll({
+            where: {taskList: taskList}
+         })
+
+         return tasks;
+      } catch (error) {
+         throw error;
+      }
+   }
+
    async getAllTasks() {
       const tasks = await Task.findAll();
       return tasks;

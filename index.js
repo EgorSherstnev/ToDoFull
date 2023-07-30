@@ -4,15 +4,20 @@ const express = require('express')
 const sequelize = require('./db')
 const cors = require('cors')
 const path = require('path')
+const router = require('./routes/index')
+const errorHandler = require('./middleware/ErrorHandingMiddleware')
+
 
 const PORT = process.env.PORT || 7000
 
 // Create the express app
 const app = express()
 app.use(cors());
-app.get('/', (req, res) => {
-  res.send("ToDo Работает!!!")
-})
+app.use(express.json());
+app.use('/api', router)
+// app.get('/', (req, res) => {
+//   res.send("ToDo Работает!!!")
+// })
 
 // Routes and middleware
 // app.use(/* ... */)
@@ -35,6 +40,8 @@ app.listen(1234, function (err) {
 
   console.log('Started at http://localhost:1234')
 })*/
+
+app.use(errorHandler)
 
 const start = async () => {
   try {

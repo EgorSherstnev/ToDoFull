@@ -3,11 +3,33 @@ const taskService = require('../service/taskService')
 class TaskController {
    async adding (req,res,next) {
       try {
-         const { taskDescription } = req.body
-         const taskData = await taskService.adding(taskDescription)
+         const { taskList, taskName, taskDescription } = req.body
+         const taskData = await taskService.addingTask( taskList, taskName, taskDescription )
          return res.json(taskData)
       } catch(e) {
          next(e)
       }
    }
+
+   async update (req, res, next) {
+      try {
+         const { taskList, taskName, taskDescription, unicId } = req.body
+         const taskData = await taskService.updateTask( taskList, taskName, taskDescription, unicId )
+         return res.json(taskData)
+      } catch (e) {
+         next(e)
+      }
+   }
+
+   async delete (req, res, next) {
+      try {
+         const {unicId} = req.body
+         const taskData = await taskService.deleteTask(unicId)
+         return res.json(taskData)
+      } catch (e) {
+         next(e)
+      }
+   }
 }
+
+module.exports = new TaskController();

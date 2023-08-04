@@ -1,16 +1,11 @@
 const ApiError = require("../error/ApiError")
-const { Task, List } = require('../models/models')
+const { Task } = require('../models/models')
 const uuid = require('uuid')
 
 class TaskService {
-
    async addingTask (taskList, taskName, taskDescription) {
       const unicId = uuid.v1()
-      const existingList = await List.findOne({ where: { taskList } });
-      if (!existingList) {
-         throw ApiError.badRequest('Список с таким именем не существует');
-      }
-      const task = await Task.create({taskList, taskName, taskDescription, unicId, listId: list.id,})
+      const task = await Task.create({taskList, taskName, taskDescription, unicId})
       return task
    }
 

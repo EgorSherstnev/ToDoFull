@@ -3,18 +3,29 @@ const { Task, List } = require('../models/models')
 const uuid = require('uuid')
 
 class TaskService {
-
-   async addingTask (taskList, taskName, taskDescription) {
+   async createTask ( listId, taskName, taskDescription) {
       const unicId = uuid.v1()
-      const existingList = await List.findOne({ where: { taskList } });
-      if (!existingList) {
-         throw ApiError.badRequest('Список с таким именем не существует');
+
+      try {
+         const existingList = await List.findOne({ where: { id: listId } });
+         if (!existingList) {
+            throw ApiError.badRequest('Список с таким именем не существует');
+         }
+
+         const task = await Task.create({
+            taskName, 
+            taskDescription, 
+            unicId,
+            listId: existingList.id
+         })
+
+         return task
+      } catch (error) {
+         throw error
       }
-      const task = await Task.create({taskList, taskName, taskDescription, unicId, listId: list.id,})
-      return task
    }
 
-   async updateTask (taskList, taskName, taskDescription, unicId) {
+   async updateTask (taskName, taskDescription, unicId) {
       try {
          const task = await Task.findOne({where: {unicId: unicId}})
          if (!task) {
@@ -32,27 +43,15 @@ class TaskService {
       }
    }
 
-   async getAllLists() {
+   async getTasksByList(listId) {
       try {
-         //Запрос значений по листу задач из БД
-         const taskLists = await Task.findAll({
-            attributes: ['taskList'],
-            group: ['taskList']
-         })
-         if (!taskLists) {
-            return { message: 'Создайте список задач'}
+         const existingList = await List.findOne({ where: { id: listId } });
+         if (!existingList) {
+            throw ApiError.badRequest('Список с таким именем не существует');
          }
-         const uniqueTaskLists = taskLists.map(task => task.taskList);
-         return uniqueTaskLists
-      } catch (error) {
-         throw error;
-      }
-   }
 
-   async getTasksByList(taskList) {
-      try {
          const tasks = await Task.findAll({
-            where: {taskList: taskList}
+            where: { listId: existingList.id}
          })
 
          return tasks;

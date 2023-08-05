@@ -6,4 +6,7 @@ router.post('/create',listController.createList)
 router.put('/update', listController.updateList)
 router.delete('/delete', listController.deleteList)
 
+router.get('/get_lists', listController.getLists)
+router.get('/get_all_lists',listController.getAllLists)
+
 module.exports = router;

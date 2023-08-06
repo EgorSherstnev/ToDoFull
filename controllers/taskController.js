@@ -24,7 +24,8 @@ class TaskController {
 
    async getTasksByList (req, res, next) {
       try {
-         const { listId } = req.body
+         const { listId } = req.query
+         console.log("listId  в  taskController", listId)
          const taskData = await taskService.getTasksByList(listId)
          return res.json(taskData)
       } catch(e) {

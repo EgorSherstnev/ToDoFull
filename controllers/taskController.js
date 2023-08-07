@@ -44,7 +44,9 @@ class TaskController {
 
    async delete (req, res, next) {
       try {
-         const {unicId} = req.body
+         console.log('Task Controller Delete')
+         const {unicId} = req.params
+         console.log('unicId in Task Controller Delete',unicId)
          const taskData = await taskService.deleteTask(unicId)
          return res.json(taskData)
       } catch (e) {

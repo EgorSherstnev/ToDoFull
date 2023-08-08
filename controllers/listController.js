@@ -23,7 +23,9 @@ class ListController {
 
    async deleteList(req,res,next) {
       try {
-         const { id } = req.body
+         console.log('List Controller Delete')
+         const { id } = req.params
+         console.log('id in List Controller Delete',id)
          const listData = await listService.deleteList(id)
          return res.json(listData)
       } catch(e){
